@@ -8,4 +8,10 @@
 
 <script setup lang="ts"></script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+</style>

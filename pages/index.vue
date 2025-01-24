@@ -5,7 +5,7 @@
 
       <FReview
         title="Відгуки наших клієнтів у Google"
-        :rating="reviewsStore.REVIEWS[0].rating"
+        :rating="Number((reviewsStore.RATING / 20 + 1).toFixed(1))"
         :count="reviewsStore.REVIEWS.length"
       />
     </div>

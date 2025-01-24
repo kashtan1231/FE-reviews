@@ -20,5 +20,8 @@ export const useReviewsStore = defineStore('reviews', {
   },
   getters: {
     REVIEWS: (state) => state.reviews,
+    RATING: (state) =>
+      state.reviews.reduce((acc, review) => acc + review.rating, 0) / state.reviews.length,
+    COUNT: (state) => state.reviews.length,
   },
 })
