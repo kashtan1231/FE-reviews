@@ -87,8 +87,6 @@ import FInput from '~/components/Inputs/F-Input.vue'
 import FModal from '~/components/F-Modal.vue'
 import * as yup from 'yup'
 
-// test
-
 const props = defineProps<{
   title: string
   rating: number
