@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use 'sass:list'; @import '~/styles/scss/imports.scss';`,
+          additionalData: `@use 'sass:list'; @import '~/assets/scss/imports.scss';`,
           api: 'modern-compiler',
           silenceDeprecations: ['import'],
         },
@@ -59,7 +59,13 @@ export default defineNuxtConfig({
 
   googleFonts: {
     families: {
-      Inter: '100..900',
+      Roboto: '100..900',
+    },
+  },
+
+  runtimeConfig: {
+    public: {
+      BASE_API_URL: 'https://679374835eae7e5c4d8eb46f.mockapi.io/fe/api/',
     },
   },
 

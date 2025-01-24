@@ -1,9 +1,33 @@
 <template>
-  <NuxtLayout class="home">
-    <div>Wellcome to project</div>
+  <NuxtLayout>
+    <div class="home">
+      <h1>Відгуки</h1>
+
+      <FReview
+        title="Відгуки наших клієнтів у Google"
+        :rating="reviewsStore.REVIEWS[0].rating"
+        :count="reviewsStore.REVIEWS.length"
+      />
+    </div>
   </NuxtLayout>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { useReviewsStore } from '~/stores/reviews'
+import FReview from '~/components/F-Review.vue'
 
-<style scoped></style>
+const reviewsStore = useReviewsStore()
+
+await reviewsStore.GET_REVIEWS()
+</script>
+
+<style lang="scss" scoped>
+.home {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  align-items: center;
+  height: 100vh;
+  padding: 80px 20px;
+}
+</style>
