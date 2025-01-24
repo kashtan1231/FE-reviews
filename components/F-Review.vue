@@ -54,8 +54,8 @@
       />
 
       <FInput
-        v-model="currentRating"
         id="rating"
+        v-model="currentRating"
         label="Рейтинг *"
         placeholder="Від 1 до 100"
         type="number"
