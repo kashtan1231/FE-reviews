@@ -7,7 +7,11 @@
         title="Відгуки наших клієнтів у Google"
         :rating="Number((reviewsStore.RATING / 20 + 1).toFixed(1))"
         :count="reviewsStore.REVIEWS.length"
-      />
+      >
+        <template #img>
+          <img src="~/assets/google.svg" alt="Google" />
+        </template>
+      </FReview>
     </div>
   </NuxtLayout>
 </template>

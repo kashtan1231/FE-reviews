@@ -17,6 +17,13 @@ export const useReviewsStore = defineStore('reviews', {
         this.reviews = data.value
       }
     },
+
+    async SEND_REVIEW(payload: Reviews.Review) {
+      const { data, error } = await reviewsAPI.sendReview(payload)
+      if (data.value && !error.value) {
+        this.reviews.push(data.value)
+      }
+    },
   },
   getters: {
     REVIEWS: (state) => state.reviews,

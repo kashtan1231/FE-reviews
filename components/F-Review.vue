@@ -1,28 +1,35 @@
 <template>
   <div class="review">
-    <h4 class="review__title">
-      {{ title }}
-    </h4>
+    <div class="review__content">
+      <div class="logo-and-title">
+        <slot name="img" />
 
-    <h2 class="review__rating">
-      {{ rating }}
-    </h2>
+        <h4 class="logo-and-title__title">
+          {{ title }}
+        </h4>
+      </div>
 
-    <div class="review__stars">
-      <div
-        v-for="item in 5"
-        :key="item"
-        :alt="getStarType(item)"
-        :class="`review__stars-item review__stars-item--${getStarType(item)}`"
-        width="20"
-        height="20"
-      />
+      <div class="ratings">
+        <h2 class="ratings__rating">
+          {{ rating }}
+        </h2>
+
+        <div class="ratings__stars">
+          <div
+            v-for="item in 5"
+            :key="item"
+            :alt="getStarType(item)"
+            :class="`ratings__stars-item ratings__stars-item--${getStarType(item)}`"
+            width="20"
+            height="20"
+          />
+        </div>
+
+        <div class="ratings__count"> {{ count }} відгуків </div>
+      </div>
     </div>
 
-    <div class="review__count"> {{ count }} відгуків </div>
-
     <div class="review__buttons">
-      <FButton text="Написати" />
       <FButton
         tag="a"
         to="https://github.com/kashtan1231"
@@ -30,18 +37,89 @@
         visual-type="light"
         text="Переглянути"
       />
+      <FButton text="Написати" @click="openModal" />
     </div>
   </div>
+
+  <FModal v-model="isModalOpen">
+    <div class="modal-review">
+      <h3 class="modal-review__title">Написати відгук</h3>
+
+      <FInput
+        label="Ім'я *"
+        id="name"
+        v-model="name"
+        placeholder="Катерина"
+        :error-text="errors.name"
+      />
+
+      <FInput
+        label="Рейтинг *"
+        id="rating"
+        v-model="currentRating"
+        placeholder="Від 1 до 100"
+        type="number"
+        :min="1"
+        :max="100"
+        :error-text="errors.currentRating"
+      />
+
+      <FInput
+        label="Відгук"
+        id="review"
+        v-model="review"
+        placeholder="Відгук"
+        :area-lines="4"
+        is-area
+      />
+
+      <form class="modal-review__buttons" @submit.prevent="handleSubmit">
+        <FButton is-full-width visual-type="light" text="Відмінити" />
+        <FButton type="submit" :disabled="!meta.valid" is-full-width text="Написати" />
+      </form>
+    </div>
+  </FModal>
 </template>
 
 <script setup lang="ts">
-import FButton from '~/Buttons/F-Button.vue'
+import FButton from '~/components/Buttons/F-Button.vue'
+import FInput from '~/components/Inputs/F-Input.vue'
+import FModal from '~/components/F-Modal.vue'
+import * as yup from 'yup'
 
 const props = defineProps<{
   title: string
   rating: number
   count: number
 }>()
+
+const reviewsStore = useReviewsStore()
+
+const isModalOpen = ref(false)
+
+const schema = toTypedSchema(
+  yup.object({
+    name: yup.string().required("Ім'я є обов'язковим"),
+    currentRating: yup
+      .number()
+      .required("Рейтинг є обов'язковим")
+      .min(1, 'Рейтинг не може бути менше 1')
+      .max(100, 'Рейтинг не може бути більше 100'),
+    review: yup.string(),
+  })
+)
+
+const { errors, meta, defineField } = useForm<{
+  name: string
+  currentRating: number
+  review: string
+}>({
+  validationSchema: schema,
+})
+
+const [name] = defineField('name')
+const [currentRating] = defineField('currentRating')
+const [review] = defineField('review')
 
 const getStarType = (position: number) => {
   const fullStars = Math.floor(props.rating)
@@ -54,61 +132,113 @@ const getStarType = (position: number) => {
   }
   return 'empty'
 }
+
+const openModal = () => {
+  isModalOpen.value = true
+}
+
+const handleSubmit = () => {
+  reviewsStore.SEND_REVIEW({
+    name: name.value,
+    rating: currentRating.value,
+    text: review.value,
+    id: reviewsStore.REVIEWS.length + 1,
+  })
+}
 </script>
 
 <style lang="scss" scoped>
 .review {
   display: flex;
+  gap: 20px;
   align-items: center;
+  justify-content: space-between;
   width: 100%;
   max-width: 1458px;
   padding: 30px;
   box-shadow: 0 4px 15px 0 rgba($black, 0.1);
 
-  &__title {
-    margin-right: 50px;
+  @include respond-to('mobile') {
+    flex-direction: column;
+    gap: 20px;
   }
 
-  &__rating {
-    margin-right: 20px;
-  }
-
-  &__stars {
+  &__content {
     display: flex;
-    gap: 4px;
+    gap: 60px;
     align-items: center;
-    margin-right: 20px;
 
-    &-item {
-      width: 30px;
-      height: 30px;
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: contain;
+    @include respond-to('laptop') {
+      flex-direction: column;
+      gap: 10px;
+    }
 
-      &--full {
-        background-image: url('~/assets/full-star.svg');
+    .logo-and-title {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .ratings {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      align-items: center;
+
+      &__stars {
+        display: flex;
+        gap: 4px;
+        align-items: center;
+
+        &-item {
+          width: 30px;
+          height: 30px;
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: contain;
+
+          &--full {
+            background-image: url('~/assets/full-star.svg');
+          }
+
+          &--half {
+            background-image: url('~/assets/half-star.svg');
+          }
+
+          &--empty {
+            background-image: url('~/assets/empty-star.svg');
+          }
+        }
       }
 
-      &--half {
-        background-image: url('~/assets/half-star.svg');
-      }
-
-      &--empty {
-        background-image: url('~/assets/empty-star.svg');
+      &__count {
+        margin-right: 20px;
+        color: $gray-dark;
       }
     }
-  }
-
-  &__count {
-    margin-right: 20px;
-    color: $gray-dark;
   }
 
   &__buttons {
     display: flex;
     gap: 10px;
-    margin-left: auto;
+
+    @include respond-to('mobile') {
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+}
+
+.modal-review {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+
+  &__buttons {
+    display: flex;
+    gap: 16px;
+    width: 100%;
   }
 }
 </style>

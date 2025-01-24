@@ -1,7 +1,8 @@
 export declare namespace Reviews {
   type Review = {
-    title: string
+    name: string
     rating: number
+    text: string
     id: number
   }
 }
