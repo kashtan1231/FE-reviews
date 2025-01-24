@@ -1,6 +1,6 @@
 <template>
   <div class="reviews-list">
-    <div v-for="review in reviews" class="list-item" :key="review.id" @click="openModal(review)">
+    <div v-for="review in reviews" :key="review.id" class="list-item" @click="openModal(review)">
       <h4 class="list-item__title">{{ review.name }}</h4>
       <p class="list-item__text">{{ review.text }}</p>
 

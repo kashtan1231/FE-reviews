@@ -46,17 +46,17 @@
       <h3 class="modal-review__title">Написати відгук</h3>
 
       <FInput
-        label="Ім'я *"
         id="name"
         v-model="name"
+        label="Ім'я *"
         placeholder="Катерина"
         :error-text="errors.name"
       />
 
       <FInput
-        label="Рейтинг *"
         id="rating"
         v-model="currentRating"
+        label="Рейтинг *"
         placeholder="Від 1 до 100"
         type="number"
         :min="1"
@@ -65,9 +65,9 @@
       />
 
       <FInput
-        label="Відгук"
         id="review"
         v-model="review"
+        label="Відгук"
         placeholder="Відгук"
         :area-lines="4"
         is-area
