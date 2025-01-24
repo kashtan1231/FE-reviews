@@ -1,4 +1,4 @@
-# Nuxt 3 template
+# FE REVIEWS
 
 This is FE Reviews test app
 
