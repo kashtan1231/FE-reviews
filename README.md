@@ -2,6 +2,8 @@
 
 This is FE Reviews test app
 
+To get fake reviews array used [mockAPI](https://mockapi.io/)
+
 ## Https
 
 After cloning repository you need to generate certs for https by your own or get it somewhere
@@ -37,6 +39,12 @@ bun outdated
 ```
 
 than you can run
+
+```powershell
+bun update
+```
+
+or
 
 ```powershell
 bun run setup --force
