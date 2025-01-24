@@ -71,10 +71,13 @@ export default defineNuxtConfig({
 
   devServer: {
     port: 3000,
-    https: {
-      key: './certs/privkey.pem',
-      cert: './certs/cert.pem',
-    },
+    https:
+      process.env.HTTPS === 'true'
+        ? {
+            key: './certs/privkey.pem',
+            cert: './certs/cert.pem',
+          }
+        : undefined,
   },
 
   compatibilityDate: '2025-01-24',
