@@ -20,10 +20,23 @@
     </div>
 
     <div class="review__count"> {{ count }} відгуків </div>
+
+    <div class="review__buttons">
+      <FButton text="Написати" />
+      <FButton
+        tag="a"
+        to="https://github.com/kashtan1231"
+        target="_blank"
+        visual-type="light"
+        text="Переглянути"
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import FButton from '~/Buttons/F-Button.vue'
+
 const props = defineProps<{
   title: string
   rating: number
@@ -47,6 +60,8 @@ const getStarType = (position: number) => {
 .review {
   display: flex;
   align-items: center;
+  width: 100%;
+  max-width: 1458px;
   padding: 30px;
   box-shadow: 0 4px 15px 0 rgba($black, 0.1);
 
@@ -83,6 +98,17 @@ const getStarType = (position: number) => {
         background-image: url('~/assets/empty-star.svg');
       }
     }
+  }
+
+  &__count {
+    margin-right: 20px;
+    color: $gray-dark;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
   }
 }
 </style>
