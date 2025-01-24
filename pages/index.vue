@@ -12,13 +12,17 @@
           <img src="~/assets/google.svg" alt="Google" />
         </template>
       </FReview>
+
+      <ReviewsList />
     </div>
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
 import { useReviewsStore } from '~/stores/reviews'
+
 import FReview from '~/components/F-Review.vue'
+import ReviewsList from '~/components/ReviewsList.vue'
 
 const reviewsStore = useReviewsStore()
 
@@ -31,7 +35,7 @@ await reviewsStore.GET_REVIEWS()
   flex-direction: column;
   gap: 32px;
   align-items: center;
-  height: 100vh;
   padding: 80px 20px;
+  background-color: $gray-light;
 }
 </style>

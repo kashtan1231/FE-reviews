@@ -73,7 +73,6 @@ const emit = defineEmits<{
 const inputRef = ref<Nullable<HTMLInputElement>>(null)
 
 const isPasswordShow = ref(false)
-const togglePasswordShow = useToggle(isPasswordShow)
 
 const onInput = (event: Event) => {
   const target = event.target as HTMLInputElement

@@ -109,7 +109,7 @@ const schema = toTypedSchema(
   })
 )
 
-const { errors, meta, defineField } = useForm<{
+const { errors, meta, defineField, resetField } = useForm<{
   name: string
   currentRating: number
   review: string
@@ -137,13 +137,18 @@ const openModal = () => {
   isModalOpen.value = true
 }
 
-const handleSubmit = () => {
-  reviewsStore.SEND_REVIEW({
+const handleSubmit = async () => {
+  await reviewsStore.SEND_REVIEW({
     name: name.value,
     rating: currentRating.value,
     text: review.value,
     id: reviewsStore.REVIEWS.length + 1,
   })
+
+  isModalOpen.value = false
+  resetField('name')
+  resetField('currentRating')
+  resetField('review')
 }
 </script>
 
@@ -156,6 +161,7 @@ const handleSubmit = () => {
   width: 100%;
   max-width: 1458px;
   padding: 30px;
+  background-color: $white;
   box-shadow: 0 4px 15px 0 rgba($black, 0.1);
 
   @include respond-to('mobile') {

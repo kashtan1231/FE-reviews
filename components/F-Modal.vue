@@ -54,7 +54,7 @@ defineOptions({
   &__wrapper {
     position: relative;
     width: 100%;
-    max-width: 500px;
+    max-width: 600px;
     height: fit-content;
     max-height: 80vh;
     padding: 24px;
